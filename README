@@ -1,0 +1,11 @@
+Details :-
+    This project is based on users and blogs. There will be 2 roles in the system :- Admin , User. User can create,update ,delete and see their own blogs. Admin can see, update, delete particular user's blog and all blogs.
+
+start command :- npm run start
+
+Migration command :- 
+        - npx migrate-mongo up
+        - npx migrate-mongo down
+
+
+
