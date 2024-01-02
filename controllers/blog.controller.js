@@ -10,7 +10,7 @@ const ROLE = require('../schemas/role.schema');
  */
 exports.createBlog = async (req,res,next) =>{
     try{
-        const {title , description , status, category} = req.body;
+        const {title , description , status, category } = req.body;
 
         const newBlog = {
             title,
@@ -18,14 +18,16 @@ exports.createBlog = async (req,res,next) =>{
             status,
             category,
             author: req.user._id,
-            publish_date: new Date()
+            published_date: new Date(),
+            modify_date:null
         };
 
         console.log('newBlog',newBlog);
 
         const blogCreated = await BLOG.create(newBlog);
-        await blogCreated.save();
         console.log('blog created===>',blogCreated);
+        await blogCreated.save();
+       
         res.status(200).json({blogCreated});
     }catch(error){
         next(error);
@@ -108,7 +110,7 @@ exports.getBlogsByDate = async (req,res,next) =>{
  */
 exports.findBlogsByAuthor = async (req,res,next) =>{
     try{
-        const authorId = req.params;
+        const {authorId} = req.params;
 
         const blogs = await BLOG.find({author:authorId});
 
@@ -123,14 +125,25 @@ exports.findBlogsByAuthor = async (req,res,next) =>{
     }
 }
 
+
+//Delete blog by id
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 exports.deleteBlog = async(req,res,next) =>{
     try{
 
-        const blogId = req.params;
+        const {blogId} = req.params;
+        const roleFound = await ROLE.findOne({name:req.user.role});
+        const role = roleFound.name;
 
         const blogFound = await BLOG.findOne({_id:blogId});
 
-        if(blogFound.author !== req.user._id){
+        if(role === 'User'  && blogFound.author !== req.user._id){
             return res.status(403).json({message:'Forbidden'});
         }
 
