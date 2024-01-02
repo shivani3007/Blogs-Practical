@@ -1,11 +1,23 @@
 Details :-
     This project is based on users and blogs. There will be 2 roles in the system :- Admin , User. User can create,update ,delete and see their own blogs. Admin can see, update, delete particular user's blog and all blogs.
 
+Install NPM Packages
+    - npm install
+
 start command :- npm run start
 
 Migration command :- 
         - npx migrate-mongo up
         - npx migrate-mongo down
 
+Enter following variables in .env
+ 
+    - PORT :- Port on which your app is running.
+    - SECRET_KEY :- Secret or key for jwt passport authentication.
+    - DB_URL :- Url of your mongodb database.
 
+Roadmap :-
 
+    - Register User 
+    - Login User
+    - Create blog, find blogs, delete blogs
